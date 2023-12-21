@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Calculator</title>
+</head>
+<body>
+
+  <script>
+    function add(num1, num2) {
+      return num1 + num2;
+    }
+
+    function subtract(num1, num2) {
+      return num1 - num2;
+    }
+
+    function multiply(num1, num2) {
+      return num1 * num2;
+    }
+
+    function divide(num1, num2) {
+      if (num2 !== 0) {
+        return num1 / num2;
+      } else {
+        alert("Error: Cannot divide by zero.");
+        return null; // Return null to indicate an error
+      }
+    }
+
+    function calculate() {
+      while (true) {
+        let num1 = getUserInput("Enter the first number:");
+
+        let num2;
+        let operation;
+        let result;
+
+        do {
+          num2 = getUserInput("Enter the second number:");
+          operation = getValidOperation();
+
+          // Check for division by zero
+          if (operation === "/" && num2 === 0) {
+            alert("Error: Cannot divide by zero. Please enter a non-zero second number.");
+          }
+        } while (operation === "/" && num2 === 0);
+
+        switch (operation) {
+          case "+":
+            result = add(num1, num2);
+            break;
+          case "-":
+            result = subtract(num1, num2);
+            break;
+          case "*":
+            result = multiply(num1, num2);
+            break;
+          case "/":
+            result = divide(num1, num2);
+            break;
+          default:
+            result = "Error: Invalid operation!";
+        }
+
+        alert("Result: " + result);
+
+        let continueCalculation = confirm("Do you want to perform another calculation?");
+
+        if (!continueCalculation) {
+          break;
+        }
+      }
+    }
+
+    function getUserInput(promptMessage) {
+      let userInput;
+      do {
+        userInput = prompt(promptMessage);
+
+        if (!isValidInput(userInput)) {
+          alert("Error: Invalid input. Please enter numeric values.");
+        }
+      } while (!isValidInput(userInput));
+
+      return parseFloat(userInput);
+    }
+
+    function isValidInput(input) {
+      return !isNaN(parseFloat(input)) && isFinite(input);
+    }
+
+    function getValidOperation() {
+      let operation;
+      do {
+        operation = prompt("Choose an operation (+, -, *, /):");
+
+        if (!["+", "-", "*", "/"].includes(operation)) {
+          alert("Error: Invalid operation. Please enter +, -, *, or /.");
+        }
+      } while (!["+", "-", "*", "/"].includes(operation));
+
+      return operation;
+    }
+
+    calculate();
+  </script>
+
+</body>
+</html>
